@@ -1,7 +1,11 @@
-import java.util.ArrayList;
+package com.chess;
+
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Game {
+public abstract class Game implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     protected int gameId;
     protected String gameType;
     protected Board board;

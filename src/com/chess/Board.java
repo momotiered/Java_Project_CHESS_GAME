@@ -1,4 +1,10 @@
-public class Board {
+package com.chess;
+
+import java.io.Serializable;
+
+public class Board implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     public static final int PEACE_REVERSI_SIZE = 8; // 和平棋和黑白棋使用8*8棋盘
     public static final int GOMOKU_SIZE = 15; // 五子棋使用15*15棋盘
     

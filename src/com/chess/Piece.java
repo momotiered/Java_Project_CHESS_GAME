@@ -1,4 +1,8 @@
-public enum Piece {
+package com.chess;
+
+import java.io.Serializable;
+
+public enum Piece implements Serializable {
     BLACK("●"),
     WHITE("○"),
     EMPTY("·"),

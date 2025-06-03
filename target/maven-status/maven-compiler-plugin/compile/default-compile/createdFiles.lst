@@ -1,0 +1,14 @@
+com\chess\Board.class
+com\chess\ReversiGame.class
+com\chess\PeaceGame.class
+com\chess\Piece.class
+com\chess\ChessGameApp.class
+com\chess\GomokuGame.class
+com\chess\GameManager.class
+com\chess\GameSaveData.class
+module-info.class
+com\chess\ChessGame.class
+com\chess\ChessGameApp$1.class
+com\chess\Game.class
+com\chess\FileTest.class
+com\chess\Player.class

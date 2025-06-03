@@ -1,3 +1,5 @@
+package com.chess;
+
 import java.util.List;
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;

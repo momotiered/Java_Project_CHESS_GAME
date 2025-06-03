@@ -1,3 +1,5 @@
+package com.chess;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,20 @@ public class GameManager {
     
     public List<Game> getAllGames() {
         return games;
+    }
+    
+    public void setAllGames(List<Game> games) {
+        this.games = games;
+    }
+    
+    public int getCurrentGameIndex() {
+        return currentGameIndex;
+    }
+    
+    public void setCurrentGameIndex(int index) {
+        if (index >= 0 && index < games.size()) {
+            currentGameIndex = index;
+        }
     }
     
     public boolean switchGame(int gameId) {
