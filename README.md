@@ -8,12 +8,26 @@
 
 ## 游戏功能
 - 支持三种游戏模式
-- 可以通过输入1、2或3直接切换游戏
-- 可以添加新游戏到列表中（输入peace、reversi或gomoku）
+- 图形用户界面，支持鼠标点击操作
+- 可以通过游戏列表选择不同的游戏
+- 可以添加新游戏到列表中
 - 默认启动进入游戏1 (peace模式)
-- 允许退出程序（输入quit）
+- 支持游戏状态保存和加载
+- 允许退出程序并自动保存游戏状态
 
 ### 新增功能
+
+#### 图形用户界面 (GUI)
+- 使用JavaFX实现的现代化界面
+- 左侧显示棋盘，支持鼠标点击落子
+- 右侧显示游戏信息、游戏列表和操作按钮
+- 合法落子位置高亮显示
+- 游戏结束时自动显示结果对话框
+
+#### 游戏重置功能
+- 提供"重置游戏"按钮，可以初始化当前游戏进度
+- 重置前会显示确认对话框，防止误操作
+- 重置后保留游戏ID和类型，但清除所有已下的棋子
 
 #### 扩展的五子棋（Gomoku模式）
 - 棋盘大小扩展为15x15
@@ -22,64 +36,49 @@
 - 包含固定障碍物（位于3F、8G、9F、CK位置），无法在障碍物位置落子
 - 炸弹功能：
   - 黑方初始有2个炸弹，白方初始有3个炸弹
-  - 使用格式：@行列（如@3F）
+  - 使用炸弹按钮进入炸弹模式，然后点击目标位置
   - 可以移除对方棋子并在该位置形成弹坑（符号@）
   - 弹坑位置无法落子
 
 #### 文件回放功能
-- 支持从文件读取命令序列并执行：`playback filename.cmd`
+- 支持从文件读取命令序列并执行
+- 点击"演示模式"按钮选择命令文件
 - 每条命令执行后延迟1秒
-- 文件执行完毕后返回键盘输入模式
+- 文件执行完毕后显示提示对话框
 - 支持测试文件：
   - test1.cmd：和平棋测试
   - test2.cmd：黑白棋测试
   - test3.cmd：五子棋测试
 
-## 命令说明
-- `[坐标]`：如 3D 或 AF，表示在指定位置落子
-- `1`：切换到游戏1 (peace模式)
-- `2`：切换到游戏2 (reversi模式)
-- `3`：切换到游戏3 (gomoku模式)
-- `peace`/`reversi`/`gomoku`：添加新游戏到列表末尾
-- `pass`：在Reversi模式下，当没有合法落子位置时，跳过当前回合
-- `@行列`：在Gomoku模式下使用炸弹（如@3F）
-- `playback filename.cmd`：从文件读取并执行命令序列
-- `quit`：退出游戏
+## 操作说明
+- 点击棋盘格子：在指定位置落子
+- 点击游戏列表中的游戏：切换到该游戏
+- 点击"新建 Peace/Reversi/Gomoku"按钮：创建新游戏
+- 点击"Pass"按钮：在Reversi模式下跳过当前回合
+- 点击"使用炸弹"按钮：在Gomoku模式下激活炸弹模式
+- 点击"重置游戏"按钮：重置当前游戏状态
+- 点击"演示模式"按钮：从文件读取并执行命令序列
+- 点击"退出"按钮：保存游戏状态并退出程序
 
 ## 编译与运行
 
-### 编译
+### 使用Maven构建和运行
 ```
-javac -encoding UTF-8 -d bin src/*.java
-```
-
-### 运行
-
-Windows PowerShell:
-```
-$env:JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8"; java -cp bin ChessGame
+mvn clean javafx:run
 ```
 
-Windows CMD:
+### 手动编译
 ```
-set JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
-java -cp bin ChessGame
-```
-
-Linux/Mac系统:
-```
-export JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8"
-java -cp bin ChessGame
+javac -encoding UTF-8 --module-path path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -d target/classes src/main/java/com/chess/*.java
 ```
 
-### 解决乱码问题
-如果遇到中文乱码，请确保：
-1. 使用`-encoding UTF-8`参数编译
-2. 设置JAVA_TOOL_OPTIONS环境变量指定UTF-8编码
-3. 确保控制台/终端支持UTF-8编码
+### 手动运行
+```
+java --module-path path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -cp target/classes com.chess.ChessGameApp
+```
 
 ## 项目结构
-- `src/`：源代码目录
+- `src/main/java/com/chess/`：源代码目录
   - `Board.java`：棋盘类
   - `Piece.java`：棋子枚举类（包括空、黑、白、障碍物、弹坑）
   - `Player.java`：玩家类
@@ -88,6 +87,12 @@ java -cp bin ChessGame
   - `ReversiGame.java`：Reversi模式游戏类
   - `GomokuGame.java`：Gomoku模式游戏类（五子棋）
   - `GameManager.java`：游戏管理器类
-  - `ChessGame.java`：主应用类，包含界面和用户交互
-- `bin/`：编译后的类文件目录
-- `README.md`：项目说明文件 
+  - `ChessGameApp.java`：JavaFX主应用类，包含GUI界面和用户交互
+  - `GameSaveData.java`：游戏存档数据类
+- `pom.xml`：Maven项目配置文件
+- `README.md`：项目说明文件
+
+## 系统要求
+- Java 17 或更高版本
+- JavaFX 21 或更高版本
+- Maven 3.6 或更高版本（如果使用Maven构建） 

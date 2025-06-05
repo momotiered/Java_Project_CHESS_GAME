@@ -107,4 +107,24 @@ public class GameManager {
         }
         return ((ReversiGame) currentGame).pass();
     }
+    
+    public void resetCurrentGame() {
+        // 获取当前游戏信息
+        Game currentGame = getCurrentGame();
+        if (currentGame == null) {
+            return;
+        }
+        
+        int gameId = currentGame.getGameId();
+        String gameType = currentGame.getGameType();
+        
+        // 创建相同类型的新游戏来替换当前游戏
+        if (gameType.equalsIgnoreCase("peace")) {
+            games.set(currentGameIndex, new PeaceGame(gameId));
+        } else if (gameType.equalsIgnoreCase("reversi")) {
+            games.set(currentGameIndex, new ReversiGame(gameId));
+        } else if (gameType.equalsIgnoreCase("gomoku")) {
+            games.set(currentGameIndex, new GomokuGame(gameId));
+        }
+    }
 } 
