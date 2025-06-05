@@ -25,6 +25,7 @@ public class ChessGameApp extends Application {
     private ListView<String> gameListView;
     private Button passButton;
     private Button bombButton;
+    private Button resetButton;
     private Label statusLabel;
     private Label gameNumberLabel;
     private Label playerTurnLabel;
@@ -101,11 +102,14 @@ public class ChessGameApp extends Application {
         bombButton = new Button("使用炸弹");
         bombButton.setOnAction(e -> handleBombButtonClick());
         
+        resetButton = new Button("重置游戏");
+        resetButton.setOnAction(e -> handleResetGame());
+        
         gameInfoPanel.getChildren().addAll(
             gameNumberLabel, playerTurnLabel, 
             player1ScoreLabel, player2ScoreLabel, 
             bombCountLabel, statusLabel,
-            passButton, bombButton
+            passButton, bombButton, resetButton
         );
         
         // 第二列：游戏列表
@@ -326,6 +330,7 @@ public class ChessGameApp extends Application {
             Player player = currentGame.getCurrentPlayer();
             if (player.getBombCount() > 0) {
                 bombSelected = true;
+                bombButton.setStyle("-fx-background-color: #ff8080;");
                 statusLabel.setText("请选择要使用炸弹的位置");
             } else {
                 showAlert("错误", "没有足够的炸弹！");
@@ -333,6 +338,23 @@ public class ChessGameApp extends Application {
         } else {
             showAlert("错误", "当前游戏模式不支持炸弹操作！");
         }
+    }
+    
+    private void handleResetGame() {
+        // 显示确认对话框
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("重置游戏");
+        alert.setHeaderText(null);
+        alert.setContentText("确定要重置当前游戏吗？这将清除所有已下的棋子。");
+        
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                // 用户确认重置
+                gameManager.resetCurrentGame();
+                updateUI();
+                statusLabel.setText("游戏已重置");
+            }
+        });
     }
     
     private void updateUI() {
